@@ -1,10 +1,6 @@
 --- Appending content from: ./style.css ---
 /* style.css */
 
-
-
-
-
 /* Improved Box-Sizing */
 html {
     box-sizing: border-box;
@@ -26,7 +22,7 @@ html {
     --color-text: #2C3E50;
     --color-link: #607196;
     --color-link-hover: #4A5A77;
-    --site-text-width: 1200px;
+    --site-text-width: 1000px;
     
     /* Typography */
     --font-family: "Jost", sans-serif;
@@ -41,11 +37,26 @@ html {
     --spacing-m: 1rem;
     --spacing-l: 2rem;
     --spacing-xl: 4rem;
-    --section-spacing: 6rem;
+    --section-spacing: 3rem;
+    --line-max-width: 80ch;
+
+    /* Element-specific Padding */
+    --header-padding-top: var(--spacing-l);
+    --header-padding-bottom: var(--spacing-s);
+    --header-padding-left: var(--spacing-l);
+    --header-padding-right: var(--spacing-l);
+    --main-padding-top: var(--spacing-l);
+    --main-padding-bottom: var(--spacing-xl);
+    --main-padding-left: var(--spacing-l);
+    --main-padding-right: var(--spacing-l);
+    --footer-padding-top: var(--spacing-xl);
+    --footer-padding-bottom: var(--spacing-xl);
+    --footer-padding-left: var(--spacing-l);
+    --footer-padding-right: var(--spacing-l);
 }
 
+/* Theme & Palette Variations */
 [data-theme="dark"] {
-    /* Colors - Dark Theme */
     --color-primary: #AAB4E2;
     --color-secondary: #858CA0;
     --color-background: #1E1F24;
@@ -53,6 +64,33 @@ html {
     --color-text: #E8E9ED;
     --color-link: #AAB4E2;
     --color-link-hover: #C5CCF0;
+}
+
+[data-theme][data-palette="theme-01"] {
+    --color-primary: #274c77ff;
+    --color-secondary: #6096baff;
+    --color-background: #e7ecefff;
+    --color-surface: #a3cef1ff;
+    --color-link: #274c77ff;
+    --color-link-hover: #8b8c89ff;
+}
+
+[data-theme][data-palette="theme-02"] {
+    --color-primary: #837569ff;
+    --color-secondary: #b7b6c2ff;
+    --color-background: #d1d5deff;
+    --color-surface: #8aaa79ff;
+    --color-link: #657153ff;
+    --color-link-hover: #b7b6c2ff;
+}
+
+[data-theme][data-palette="theme-03"] {
+    --color-primary: #764248ff;
+    --color-secondary: #dda3b2ff;
+    --color-background: #dfe2cfff;
+    --color-surface: #e3c5bbff;
+    --color-link: #764248ff;
+    --color-link-hover: #ffadc6ff;
 }
 
 /* Base Styles */
@@ -72,7 +110,7 @@ h1, h2 {
     font-weight: 300;
     letter-spacing: -0.02em;
     line-height: var(--line-height-heading);
-    margin-bottom: var(--spacing-l);
+    margin-bottom: var(--spacing-m);
 }
 
 h1 {
@@ -85,22 +123,31 @@ h2 {
 }
 
 p {
-    margin-bottom: var(--spacing-l);
-    max-width: 65ch;
+    margin-bottom: var(--spacing-m);
+    max-width: var(--line-max-width);
 }
 
 /* Layout */
 header {
     background-color: var(--color-surface);
-    padding: var(--spacing-xl) var(--spacing-l);
+    padding-top: var(--header-padding-top);
+    padding-bottom: var(--header-padding-bottom);
+    padding-left: var(--header-padding-left);
+    padding-right: var(--header-padding-right);
     text-align: center;
     position: relative;
+    max-width: var(--site-text-width);
+    margin: 0 auto;
 }
 
 main {
     max-width: var(--site-text-width);
     margin: 0 auto;
-    padding: var(--spacing-xl) var(--spacing-l);
+    padding-top: var(--main-padding-top);
+    padding-bottom: var(--main-padding-bottom);
+    padding-left: var(--main-padding-left);
+    padding-right: var(--main-padding-right);
+    background-color: var(--color-surface);
 }
 
 section {
@@ -113,17 +160,29 @@ section:last-child {
 
 footer {
     background-color: var(--color-surface);
-    padding: var(--spacing-xl) var(--spacing-l);
+    padding-top: var(--footer-padding-top);
+    padding-bottom: var(--footer-padding-bottom);
+    padding-left: var(--footer-padding-left);
+    padding-right: var(--footer-padding-right);
     text-align: center;
     font-size: 0.9rem;
     color: var(--color-secondary);
+    max-width: var(--site-text-width);
+    margin: 0 auto;
 }
 
-/* Modern Theme Toggle */
-#theme-toggle {
+/* Theme Controls */
+.theme-controls {
     position: fixed;
     top: var(--spacing-l);
     right: var(--spacing-l);
+    display: flex;
+    gap: var(--spacing-s);
+    z-index: 100;
+}
+
+#theme-toggle,
+#palette-toggle {
     background: var(--color-surface);
     border: 2px solid var(--color-secondary);
     color: var(--color-primary);
@@ -137,10 +196,10 @@ footer {
     font-size: 1.2rem;
     transition: all 0.3s ease;
     opacity: 0.7;
-    z-index: 100;
 }
 
-#theme-toggle:hover {
+#theme-toggle:hover,
+#palette-toggle:hover {
     opacity: 1;
     transform: scale(1.1);
     border-color: var(--color-primary);
@@ -192,14 +251,18 @@ a:focus {
         --section-spacing: 4rem;
     }
     
-    #theme-toggle {
+    .theme-controls {
         top: var(--spacing-m);
         right: var(--spacing-m);
+    }
+
+    #theme-toggle,
+    #palette-toggle {
         width: 2rem;
         height: 2rem;
         font-size: 1rem;
     }
-} 
+}
 
 ------------------------------
 
@@ -235,6 +298,20 @@ themeToggle.addEventListener('click', () => {
     
     root.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+});
+
+// Palette Toggle Functionality
+const palettes = ["theme-01", "theme-02", "theme-03"];
+const storedPalette = localStorage.getItem("palette") || palettes[0];
+root.setAttribute("data-palette", storedPalette);
+
+const paletteToggle = document.getElementById("palette-toggle");
+paletteToggle.addEventListener("click", () => {
+    const current = root.getAttribute("data-palette");
+    const index = palettes.indexOf(current);
+    const next = palettes[(index + 1) % palettes.length];
+    root.setAttribute("data-palette", next);
+    localStorage.setItem("palette", next);
 }); 
 
 ------------------------------
@@ -256,9 +333,11 @@ themeToggle.addEventListener('click', () => {
 </head>
 <body>
     <header>
-        
         <h1>Mirta Aguirre</h1>
-        <button id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+        <div class="theme-controls">
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+            <button id="palette-toggle" aria-label="Toggle color palette">🎨</button>
+        </div>
     </header>
     
     <main>

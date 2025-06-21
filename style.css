@@ -13,17 +13,16 @@ html {
 
 /* Root-level CSS Variables */
 :root {
-    /* Colors - Light Theme */
-
-    --color-primary: #607196;
-    --color-secondary: #BABFD1;
-    --color-background: #E8E9ED;
-    --color-surface: #f5f5f5;
+    /* Colors - Default Theme (theme-01) */
+    --color-primary: #274c77ff;
+    --color-secondary: #6096baff;
+    --color-background: #e7ecefff;
+    --color-surface: #a3cef1ff;
     --color-text: #2C3E50;
-    --color-link: #607196;
-    --color-link-hover: #4A5A77;
+    --color-link: #274c77ff;
+    --color-link-hover: #8b8c89ff;
     --site-text-width: 1000px;
-
+    
     /* Typography */
     --font-family: "Jost", sans-serif;
     --font-size-base: 1.125rem;
@@ -31,7 +30,7 @@ html {
     --font-size-h2: 2.5rem;
     --line-height-base: 1.6;
     --line-height-heading: 1.2;
-
+    
     /* Spacing */
     --spacing-s: 0.5rem;
     --spacing-m: 1rem;
@@ -55,8 +54,8 @@ html {
     --footer-padding-right: var(--spacing-l);
 }
 
+/* Theme Variations */
 [data-theme="dark"] {
-    /* Colors - Dark Theme */
     --color-primary: #AAB4E2;
     --color-secondary: #858CA0;
     --color-background: #1E1F24;
@@ -64,6 +63,24 @@ html {
     --color-text: #E8E9ED;
     --color-link: #AAB4E2;
     --color-link-hover: #C5CCF0;
+}
+
+[data-theme="theme-02"] {
+    --color-primary: #837569ff;
+    --color-secondary: #b7b6c2ff;
+    --color-background: #d1d5deff;
+    --color-surface: #8aaa79ff;
+    --color-link: #657153ff;
+    --color-link-hover: #b7b6c2ff;
+}
+
+[data-theme="theme-03"] {
+    --color-primary: #764248ff;
+    --color-secondary: #dda3b2ff;
+    --color-background: #dfe2cfff;
+    --color-surface: #e3c5bbff;
+    --color-link: #764248ff;
+    --color-link-hover: #ffadc6ff;
 }
 
 /* Base Styles */
@@ -75,7 +92,9 @@ body {
     color: var(--color-text);
     margin: 0;
     padding: 0;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                opacity 0.3s ease;
 }
 
 /* Typography Refinements */
@@ -111,7 +130,6 @@ header {
     position: relative;
     max-width: var(--site-text-width);
     margin: 0 auto;
-
 }
 
 main {
@@ -126,7 +144,6 @@ main {
 
 section {
     margin-bottom: var(--section-spacing);
-    
 }
 
 section:last-child {
@@ -144,14 +161,20 @@ footer {
     color: var(--color-secondary);
     max-width: var(--site-text-width);
     margin: 0 auto;
-
 }
 
-/* Modern Theme Toggle */
-#theme-toggle {
+/* Theme Controls */
+.theme-controls {
     position: fixed;
     top: var(--spacing-l);
     right: var(--spacing-l);
+    display: flex;
+    gap: var(--spacing-s);
+    z-index: 100;
+}
+
+#theme-toggle,
+#palette-toggle {
     background: var(--color-surface);
     border: 2px solid var(--color-secondary);
     color: var(--color-primary);
@@ -165,13 +188,41 @@ footer {
     font-size: 1.2rem;
     transition: all 0.3s ease;
     opacity: 0.7;
-    z-index: 100;
+    position: relative;
 }
 
-#theme-toggle:hover {
+#theme-toggle:hover,
+#palette-toggle:hover {
     opacity: 1;
     transform: scale(1.1);
     border-color: var(--color-primary);
+}
+
+/* Palette Toggle Dark Mode State */
+[data-theme="dark"] #palette-toggle {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+[data-theme="dark"] #palette-toggle::before {
+    content: "Color palettes available in light mode";
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+[data-theme="dark"] #palette-toggle:hover::before {
+    opacity: 1;
 }
 
 /* Modern Link Styles */
@@ -219,10 +270,14 @@ a:focus {
         --font-size-h2: 2rem;
         --section-spacing: 4rem;
     }
-
-    #theme-toggle {
+    
+    .theme-controls {
         top: var(--spacing-m);
         right: var(--spacing-m);
+    }
+
+    #theme-toggle,
+    #palette-toggle {
         width: 2rem;
         height: 2rem;
         font-size: 1rem;
