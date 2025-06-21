@@ -1,0 +1,303 @@
+--- Appending content from: ./style.css ---
+/* style.css */
+
+
+
+
+
+/* Improved Box-Sizing */
+html {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+/* Root-level CSS Variables */
+:root {
+    /* Colors - Light Theme */
+    --color-primary: #607196;
+    --color-secondary: #BABFD1;
+    --color-background: #E8E9ED;
+    --color-surface: #f5f5f5;
+    --color-text: #2C3E50;
+    --color-link: #607196;
+    --color-link-hover: #4A5A77;
+    --site-text-width: 1200px;
+    
+    /* Typography */
+    --font-family: "Jost", sans-serif;
+    --font-size-base: 1.125rem;
+    --font-size-h1: 3.5rem;
+    --font-size-h2: 2.5rem;
+    --line-height-base: 1.6;
+    --line-height-heading: 1.2;
+    
+    /* Spacing */
+    --spacing-s: 0.5rem;
+    --spacing-m: 1rem;
+    --spacing-l: 2rem;
+    --spacing-xl: 4rem;
+    --section-spacing: 6rem;
+}
+
+[data-theme="dark"] {
+    /* Colors - Dark Theme */
+    --color-primary: #AAB4E2;
+    --color-secondary: #858CA0;
+    --color-background: #1E1F24;
+    --color-surface: #2A2B32;
+    --color-text: #E8E9ED;
+    --color-link: #AAB4E2;
+    --color-link-hover: #C5CCF0;
+}
+
+/* Base Styles */
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-base);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Typography Refinements */
+h1, h2 {
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: var(--line-height-heading);
+    margin-bottom: var(--spacing-l);
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+    color: var(--color-primary);
+}
+
+p {
+    margin-bottom: var(--spacing-l);
+    max-width: 65ch;
+}
+
+/* Layout */
+header {
+    background-color: var(--color-surface);
+    padding: var(--spacing-xl) var(--spacing-l);
+    text-align: center;
+    position: relative;
+}
+
+main {
+    max-width: var(--site-text-width);
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-l);
+}
+
+section {
+    margin-bottom: var(--section-spacing);
+}
+
+section:last-child {
+    margin-bottom: 0;
+}
+
+footer {
+    background-color: var(--color-surface);
+    padding: var(--spacing-xl) var(--spacing-l);
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--color-secondary);
+}
+
+/* Modern Theme Toggle */
+#theme-toggle {
+    position: fixed;
+    top: var(--spacing-l);
+    right: var(--spacing-l);
+    background: var(--color-surface);
+    border: 2px solid var(--color-secondary);
+    color: var(--color-primary);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+    z-index: 100;
+}
+
+#theme-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    border-color: var(--color-primary);
+}
+
+/* Modern Link Styles */
+a {
+    color: var(--color-link);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--color-link);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-link-hover);
+}
+
+a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Accessibility Focus Styles */
+button:focus,
+a:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    :root {
+        --font-size-base: 1rem;
+        --font-size-h1: 2.5rem;
+        --font-size-h2: 2rem;
+        --section-spacing: 4rem;
+    }
+    
+    #theme-toggle {
+        top: var(--spacing-m);
+        right: var(--spacing-m);
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+    }
+} 
+
+------------------------------
+
+
+--- Appending content from: ./main.js ---
+// main.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Website loaded successfully');
+ 
+    // Basic functionality can be added here
+});
+
+// Theme Toggle Functionality
+const root = document.documentElement;
+const themeToggle = document.getElementById('theme-toggle');
+
+// Check for saved theme preference or use system preference
+const storedTheme = localStorage.getItem('theme');
+const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+// Apply initial theme
+if (storedTheme) {
+    root.setAttribute('data-theme', storedTheme);
+} else {
+    root.setAttribute('data-theme', systemPrefersDark ? 'dark' : 'light');
+}
+
+// Toggle theme on button click
+themeToggle.addEventListener('click', () => {
+    const currentTheme = root.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    root.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+}); 
+
+------------------------------
+
+
+--- Appending content from: ./index.html ---
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirta Aguirre</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        
+        <h1>Mirta Aguirre</h1>
+        <button id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+    </header>
+    
+    <main>
+        <section id="about">
+            <h2>Hi, I'm Mirta Aguirre.</h2>
+            <p>Educator, Coach, Program Manager — passionate about intercultural connection.</p>
+            <p>I help people grow — through coaching, education, and intercultural dialogue.</p>
+        </section>
+        
+        <section id="services">
+            <h2>What I Do</h2>
+            <p>I teach debate, public speaking, and leadership with a focus on personal development.</p>
+            <p>I coach students and professionals on career clarity, scholarship applications, and presentation skills.</p>
+            <p>I manage programs that help people thrive — across cultures, across goals, across geographies.</p>
+        </section>
+        
+        <section id="experience">
+            <h2>Intercultural Experience</h2>
+            <p>I've lived and worked in Argentina, Haiti, France, the UK, and more — adapting to each culture and learning from every community.</p>
+            <p>I speak Spanish, English, French, Portuguese, and some German, and I use this multilingual, multicultural perspective in everything I do.</p>
+            <p>My mission is to foster meaningful cooperation across borders, values, and lived experiences.</p>
+        </section>
+        
+        <section id="contact">
+            <h2>Let's Connect</h2>
+            <p>If you'd like to collaborate or just say hello, feel free to reach out.</p>
+            <p>Email: <a href="mailto:Mirta.Aguirre@gmail.com">Mirta.Aguirre@gmail.com</a></p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/mirtaaguirre" target="_blank" rel="noopener noreferrer">mirtaaguirre</a></p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Mirta Aguirre</p>
+    </footer>
+    
+    <script src="main.js"></script>
+</body>
+</html> 
+
+------------------------------
+
+
