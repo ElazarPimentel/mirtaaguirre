@@ -21,6 +21,7 @@ html {
     --color-text: #2C3E50;
     --color-link: #274c77ff;
     --color-link-hover: #8b8c89ff;
+    --header-background: #1b3a5cff; /* Deep blue that complements theme-01 */
     --site-text-width: 1000px;
     
     /* Typography */
@@ -65,6 +66,7 @@ html {
     --color-text: #E8E9ED;
     --color-link: #AAB4E2;
     --color-link-hover: #C5CCF0;
+    --header-background: #2A2B32; /* Darker shade for dramatic contrast */
 }
 
 [data-theme="theme-02"] {
@@ -74,6 +76,7 @@ html {
     --color-surface: #8aaa79ff;
     --color-link: #657153ff;
     --color-link-hover: #b7b6c2ff;
+    --header-background: #5c4d40ff; /* Warm brown that complements theme-02 */
 }
 
 [data-theme="theme-03"] {
@@ -83,6 +86,7 @@ html {
     --color-surface: #e3c5bbff;
     --color-link: #764248ff;
     --color-link-hover: #ffadc6ff;
+    --header-background: #4d2b2eff; /* Deep burgundy that complements theme-03 */
 }
 
 /* Base Page Layout */
@@ -116,14 +120,21 @@ h2 {
     color: var(--color-primary);
 }
 
+/* Base paragraph styles */
 p {
     margin-bottom: var(--spacing-m);
+}
+
+/* Content paragraph styles - apply max-width only to main content */
+main section p {
     max-width: var(--line-max-width);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Layout */
 header {
-    background-color: var(--color-surface);
+    background-color: var(--header-background);
     padding-top: var(--header-padding-top);
     padding-bottom: var(--header-padding-bottom);
     padding-left: var(--header-padding-left);
@@ -133,6 +144,16 @@ header {
     max-width: var(--site-text-width);
     margin: 0 auto;
     border-radius: var(--border-radius);
+}
+
+/* Update header text color for better contrast */
+header h1 {
+    color: var(--color-background);
+}
+
+/* Override header text color for dark theme */
+[data-theme="dark"] header h1 {
+    color: var(--color-primary);
 }
 
 main {
