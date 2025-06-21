@@ -21,7 +21,7 @@ html {
     --color-text: #2C3E50;
     --color-link: #274c77ff;
     --color-link-hover: #8b8c89ff;
-    --header-background: #1b3a5cff; /* Deep blue that complements theme-01 */
+    --header-background: #1b3a5cff;
     --site-text-width: 1000px;
     
     /* Typography */
@@ -55,6 +55,20 @@ html {
     --footer-padding-bottom: var(--spacing-xl);
     --footer-padding-left: var(--spacing-l);
     --footer-padding-right: var(--spacing-l);
+
+    /* Shadow variables */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow: 0 4px 12px var(--shadow-color);
+
+    /* RGB Values for Shadows */
+    --header-background-rgb: 27, 58, 92;    /* #1b3a5c */
+    --color-surface-rgb: 163, 206, 241;     /* #a3cef1 */
+    
+    /* Shadow Properties */
+    --shadow-offset: -5px;
+    --shadow-blur: 10px;
+    --shadow-spread: 3px;
+    --shadow-opacity: 0.6;
 }
 
 /* Theme Variations */
@@ -66,7 +80,11 @@ html {
     --color-text: #E8E9ED;
     --color-link: #AAB4E2;
     --color-link-hover: #C5CCF0;
-    --header-background: #2A2B32; /* Darker shade for dramatic contrast */
+    --header-background: var(--color-background);
+    
+    /* RGB Values for Dark Theme */
+    --header-background-rgb: 30, 31, 36;    /* #1E1F24 */
+    --color-surface-rgb: 42, 43, 50;        /* #2A2B32 */
 }
 
 [data-theme="theme-02"] {
@@ -76,7 +94,11 @@ html {
     --color-surface: #8aaa79ff;
     --color-link: #657153ff;
     --color-link-hover: #b7b6c2ff;
-    --header-background: #5c4d40ff; /* Warm brown that complements theme-02 */
+    --header-background: #5c4d40ff;
+    
+    /* RGB Values for Theme-02 */
+    --header-background-rgb: 92, 77, 64;    /* #5c4d40 */
+    --color-surface-rgb: 138, 170, 121;     /* #8aaa79 */
 }
 
 [data-theme="theme-03"] {
@@ -86,7 +108,11 @@ html {
     --color-surface: #e3c5bbff;
     --color-link: #764248ff;
     --color-link-hover: #ffadc6ff;
-    --header-background: #4d2b2eff; /* Deep burgundy that complements theme-03 */
+    --header-background: #4d2b2eff;
+    
+    /* RGB Values for Theme-03 */
+    --header-background-rgb: 77, 43, 46;    /* #4d2b2e */
+    --color-surface-rgb: 227, 197, 187;     /* #e3c5bb */
 }
 
 /* Base Page Layout */
@@ -109,14 +135,15 @@ h1, h2 {
     letter-spacing: -0.02em;
     line-height: var(--line-height-heading);
     margin-bottom: var(--spacing-m);
+    text-shadow: 1px 3px 3px rgba(0,0,0,0.20);
 }
 
 h1 {
-    font-size: var(--font-size-h1);
+    font-size: clamp(2.2rem, 3vw + 1rem, 3.2rem);
 }
 
 h2 {
-    font-size: var(--font-size-h2);
+    font-size: clamp(1.6rem, 2.5vw + 0.5rem, 2.2rem);
     color: var(--color-primary);
 }
 
@@ -132,9 +159,9 @@ main section p {
     margin-right: auto;
 }
 
-/* Layout */
+/* Layout with Final Shadows */
 header {
-    background-color: var(--header-background);
+    background: linear-gradient(45deg, var(--header-background) 0%, var(--color-primary) 100%);
     padding-top: var(--header-padding-top);
     padding-bottom: var(--header-padding-bottom);
     padding-left: var(--header-padding-left);
@@ -144,6 +171,8 @@ header {
     max-width: var(--site-text-width);
     margin: 0 auto;
     border-radius: var(--border-radius);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) var(--shadow-blur) var(--shadow-spread) 
+                rgba(var(--header-background-rgb), var(--shadow-opacity));
 }
 
 /* Update header text color for better contrast */
@@ -167,6 +196,8 @@ main {
     border-radius: var(--border-radius);
     margin-top: var(--spacing-m);
     margin-bottom: var(--spacing-m);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) var(--shadow-blur) var(--shadow-spread) 
+                rgba(var(--color-surface-rgb), var(--shadow-opacity));
 }
 
 section {
@@ -175,6 +206,15 @@ section {
 
 section:last-child {
     margin-bottom: 0;
+}
+
+/* Section Dividers */
+section:not(:first-of-type)::before {
+    content: "";
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+    margin-top: 0.5rem;
 }
 
 footer {
@@ -189,6 +229,8 @@ footer {
     max-width: var(--site-text-width);
     margin: 0 auto;
     border-radius: var(--border-radius);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) var(--shadow-blur) var(--shadow-spread) 
+                rgba(var(--color-surface-rgb), var(--shadow-opacity));
 }
 
 /* Theme Controls */

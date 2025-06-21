@@ -14,14 +14,15 @@ html {
 
 /* Root-level CSS Variables */
 :root {
-    /* Colors - Light Theme */
-    --color-primary: #607196;
-    --color-secondary: #BABFD1;
-    --color-background: #E8E9ED;
-    --color-surface: #f5f5f5;
+    /* Colors - Default Theme (theme-01) */
+    --color-primary: #274c77ff;
+    --color-secondary: #6096baff;
+    --color-background: #e7ecefff;
+    --color-surface: #a3cef1ff;
     --color-text: #2C3E50;
-    --color-link: #607196;
-    --color-link-hover: #4A5A77;
+    --color-link: #274c77ff;
+    --color-link-hover: #8b8c89ff;
+    --header-background: #1b3a5cff; /* Deep blue that complements theme-01 */
     --site-text-width: 1000px;
     
     /* Typography */
@@ -39,6 +40,8 @@ html {
     --spacing-xl: 4rem;
     --section-spacing: 3rem;
     --line-max-width: 80ch;
+    --border-radius: 1rem;
+    --page-margin: 2rem;
 
     /* Element-specific Padding */
     --header-padding-top: var(--spacing-l);
@@ -55,7 +58,7 @@ html {
     --footer-padding-right: var(--spacing-l);
 }
 
-/* Theme & Palette Variations */
+/* Theme Variations */
 [data-theme="dark"] {
     --color-primary: #AAB4E2;
     --color-secondary: #858CA0;
@@ -64,45 +67,41 @@ html {
     --color-text: #E8E9ED;
     --color-link: #AAB4E2;
     --color-link-hover: #C5CCF0;
+    --header-background: var(--color-background); /* Match body background in dark mode */
 }
 
-[data-theme][data-palette="theme-01"] {
-    --color-primary: #274c77ff;
-    --color-secondary: #6096baff;
-    --color-background: #e7ecefff;
-    --color-surface: #a3cef1ff;
-    --color-link: #274c77ff;
-    --color-link-hover: #8b8c89ff;
-}
-
-[data-theme][data-palette="theme-02"] {
+[data-theme="theme-02"] {
     --color-primary: #837569ff;
     --color-secondary: #b7b6c2ff;
     --color-background: #d1d5deff;
     --color-surface: #8aaa79ff;
     --color-link: #657153ff;
     --color-link-hover: #b7b6c2ff;
+    --header-background: #5c4d40ff; /* Warm brown that complements theme-02 */
 }
 
-[data-theme][data-palette="theme-03"] {
+[data-theme="theme-03"] {
     --color-primary: #764248ff;
     --color-secondary: #dda3b2ff;
     --color-background: #dfe2cfff;
     --color-surface: #e3c5bbff;
     --color-link: #764248ff;
     --color-link-hover: #ffadc6ff;
+    --header-background: #4d2b2eff; /* Deep burgundy that complements theme-03 */
 }
 
-/* Base Styles */
+/* Base Page Layout */
 body {
     font-family: var(--font-family);
     font-size: var(--font-size-base);
     line-height: var(--line-height-base);
     background-color: var(--color-background);
     color: var(--color-text);
-    margin: 0;
+    margin: var(--page-margin) 0;
     padding: 0;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                opacity 0.3s ease;
 }
 
 /* Typography Refinements */
@@ -111,25 +110,33 @@ h1, h2 {
     letter-spacing: -0.02em;
     line-height: var(--line-height-heading);
     margin-bottom: var(--spacing-m);
+    text-shadow: 1px 3px 3px rgba(0,0,0,0.20);
 }
 
 h1 {
-    font-size: var(--font-size-h1);
+    font-size: clamp(2.2rem, 3vw + 1rem, 3.2rem);
 }
 
 h2 {
-    font-size: var(--font-size-h2);
+    font-size: clamp(1.6rem, 2.5vw + 0.5rem, 2.2rem);
     color: var(--color-primary);
 }
 
+/* Base paragraph styles */
 p {
     margin-bottom: var(--spacing-m);
+}
+
+/* Content paragraph styles - apply max-width only to main content */
+main section p {
     max-width: var(--line-max-width);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Layout */
 header {
-    background-color: var(--color-surface);
+    background: linear-gradient(45deg, var(--header-background) 0%, var(--color-primary) 100%);
     padding-top: var(--header-padding-top);
     padding-bottom: var(--header-padding-bottom);
     padding-left: var(--header-padding-left);
@@ -138,6 +145,18 @@ header {
     position: relative;
     max-width: var(--site-text-width);
     margin: 0 auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+/* Update header text color for better contrast */
+header h1 {
+    color: var(--color-background);
+}
+
+/* Override header text color for dark theme */
+[data-theme="dark"] header h1 {
+    color: var(--color-primary);
 }
 
 main {
@@ -148,6 +167,10 @@ main {
     padding-left: var(--main-padding-left);
     padding-right: var(--main-padding-right);
     background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-m);
+    margin-bottom: var(--spacing-m);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
 }
 
 section {
@@ -156,6 +179,15 @@ section {
 
 section:last-child {
     margin-bottom: 0;
+}
+
+/* Section Dividers */
+section:not(:first-of-type)::before {
+    content: "";
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+    margin-top: 0.5rem;
 }
 
 footer {
@@ -169,6 +201,8 @@ footer {
     color: var(--color-secondary);
     max-width: var(--site-text-width);
     margin: 0 auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
 }
 
 /* Theme Controls */
@@ -196,6 +230,7 @@ footer {
     font-size: 1.2rem;
     transition: all 0.3s ease;
     opacity: 0.7;
+    position: relative;
 }
 
 #theme-toggle:hover,
@@ -203,6 +238,33 @@ footer {
     opacity: 1;
     transform: scale(1.1);
     border-color: var(--color-primary);
+}
+
+/* Palette Toggle Dark Mode State */
+[data-theme="dark"] #palette-toggle {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+[data-theme="dark"] #palette-toggle::before {
+    content: "Color palettes available in light mode";
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+[data-theme="dark"] #palette-toggle:hover::before {
+    opacity: 1;
 }
 
 /* Modern Link Styles */
@@ -276,42 +338,40 @@ document.addEventListener('DOMContentLoaded', function() {
     // Basic functionality can be added here
 });
 
-// Theme Toggle Functionality
+// Theme System Configuration
 const root = document.documentElement;
 const themeToggle = document.getElementById('theme-toggle');
+const paletteToggle = document.getElementById('palette-toggle');
+const palettes = ["theme-01", "theme-02", "theme-03"];
 
-// Check for saved theme preference or use system preference
+// Initial Theme Load
 const storedTheme = localStorage.getItem('theme');
 const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'theme-01');
+root.setAttribute('data-theme', initialTheme);
 
-// Apply initial theme
-if (storedTheme) {
-    root.setAttribute('data-theme', storedTheme);
-} else {
-    root.setAttribute('data-theme', systemPrefersDark ? 'dark' : 'light');
-}
-
-// Toggle theme on button click
+// Theme Toggle (Light/Dark)
 themeToggle.addEventListener('click', () => {
-    const currentTheme = root.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
+    const current = root.getAttribute('data-theme');
+    const newTheme = current === 'dark' ? 'theme-01' : 'dark';
     root.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
 });
 
-// Palette Toggle Functionality
-const palettes = ["theme-01", "theme-02", "theme-03"];
-const storedPalette = localStorage.getItem("palette") || palettes[0];
-root.setAttribute("data-palette", storedPalette);
-
-const paletteToggle = document.getElementById("palette-toggle");
+// Palette Toggle (Light Mode Only)
 paletteToggle.addEventListener("click", () => {
-    const current = root.getAttribute("data-palette");
-    const index = palettes.indexOf(current);
+    const currentTheme = root.getAttribute("data-theme");
+
+    if (currentTheme === "dark") {
+        paletteToggle.setAttribute("aria-disabled", "true");
+        return;
+    }
+
+    const index = palettes.indexOf(currentTheme);
     const next = palettes[(index + 1) % palettes.length];
-    root.setAttribute("data-palette", next);
-    localStorage.setItem("palette", next);
+    root.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    paletteToggle.setAttribute("aria-disabled", "false");
 }); 
 
 ------------------------------
@@ -343,23 +403,23 @@ paletteToggle.addEventListener("click", () => {
     <main>
         <section id="about">
             <h2>Hi, I'm Mirta Aguirre.</h2>
-            <p>Educator, Coach, Program Manager — passionate about intercultural connection.</p>
-            <p>I help people grow — through coaching, education, and intercultural dialogue.</p>
+            <p>Educator, Coach, Program Manager - passionate about intercultural connection.</p>
+            <p>I offer perspective, structure, and presence as people grow - through coaching, education, and intercultural dialogue.</p>
         </section>
         
         <section id="services">
             <h2>What I Do</h2>
-            <p>I teach debate, public speaking, and leadership with a focus on personal development.</p>
-            <p>I coach students and professionals on career clarity, scholarship applications, and presentation skills.</p>
-            <p>I manage programs that help people thrive — across cultures, across goals, across geographies.</p>
-        </section>
+            <p>I coach people through moments of decision - whether it’s applying to a top university, pursuing a prestigious scholarship, or reimagining their career path.</p>
+            <p>I help students, professionals, and changemakers clarify their direction, prepare strong applications, and take the next bold step - whether that means new skills, a mindset shift, or simply the courage to act.</p>
+            <p>I also advise organizations and programs on education, employability, and leadership - bringing experience in coaching, interculturality, and public speaking to every space I work in.</p>
+                    </section>
         
         <section id="experience">
             <h2>Intercultural Experience</h2>
-            <p>I've lived and worked in Argentina, Haiti, France, the UK, and more — adapting to each culture and learning from every community.</p>
-            <p>I speak Spanish, English, French, Portuguese, and some German, and I use this multilingual, multicultural perspective in everything I do.</p>
-            <p>My mission is to foster meaningful cooperation across borders, values, and lived experiences.</p>
-        </section>
+            <p>Having lived and worked in Argentina, Haiti, France, the UK, and parts of Asia, I’ve had the opportunity to deeply engage with diverse cultures and communities.</p>
+            <p>I speak Spanish, English, French, and Portuguese fluently, and some German - and I bring this multilingual, multicultural lens to everything I do.</p>
+            <p>In my work as a coach and advisor, I aim to build real cooperation - drawing not only from my academic background, but from lived experience, cross-cultural dialogue, and the everyday practice of listening and learning.</p>
+                    </section>
         
         <section id="contact">
             <h2>Let's Connect</h2>
